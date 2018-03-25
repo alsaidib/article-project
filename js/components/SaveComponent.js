@@ -8,13 +8,15 @@ export default class SaveComponent {
     this.listHolder = "";
     this.FireBaseinitialize();
     this.addHTML();
+    //this.setupEvents();
   }
 
   addHTML() {
     this.saveHolder.insertAdjacentHTML(
       "beforeend",
       `<h1>Saved Article</h1>
-      <ul id="listHolder"></ul>`
+      <ul id="listHolder"></ul>
+      `
     );
     this.listHolder = document.getElementById("listHolder");
   }
@@ -41,4 +43,10 @@ export default class SaveComponent {
       // console.log(this.allSavedArticles);
     });
   }
+
+  // setupEvents(e) {
+  //   document.querySelector(`li`).addEventListener("click", e => {
+  //     console.log("hello");
+  //   });
+  // }
 }

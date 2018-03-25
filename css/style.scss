@@ -56,5 +56,34 @@ body {
     border: 1px lightgray solid;
     border-radius: 2px;
     //background-color: #0f0;
+    h1 {
+      width: 100%;
+      padding: 5px;
+    }
+    ul {
+      width: 90%;
+
+      li {
+        display: flex;
+        justify-content: space-between;
+        border: 1px rgb(163, 163, 214) solid;
+
+        padding: 5px;
+        .delete_btn {
+          width: 20px;
+          height: 40px;
+          position: relative;
+          margin-right: 15px;
+
+          &::after {
+            @include pseudo($content: "\e803");
+            font-family: "my-custom-icons";
+            font-size: 20px;
+            left: 0;
+            top: 0;
+          }
+        }
+      }
+    }
   }
 }

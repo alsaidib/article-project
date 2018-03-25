@@ -12,12 +12,16 @@ export default class SavedListItem {
   loadContent() {
     Axios.get(`https://nieuws.vtm.be/feed/articles?format=json&ids=${this.id}`)
       .then(response => {
-        console.log(response.data.response.items[0].title);
+        this.id = response.data.response.items[0].id;
         this.htmlElement = response.data.response.items[0].title;
 
         this.listHolder.insertAdjacentHTML(
           "beforeend",
-          `<li>${this.htmlElement}</li>`
+
+          `
+          <li>${this.htmlElement} <div class="delete_btn data-${this.id}"></div>
+          </li>
+                `
         );
         this.htmlelement = "";
 
