@@ -2,86 +2,117 @@
 @import "base/fonts";
 @import "base/mixins";
 @import "base/variables";
-
-body {
-  background-color: $bodybg;
-}
+body {}
 
 .container {
+  background-color: rgb(95, 46, 46);
+  padding: 25px;
   margin: 0 auto;
   width: 100%;
-  height: 100%;
+  min-height: 700px;
   display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  h1 {
-    width: 100%;
-  }
-  #searcharia {
-    width: 100%;
-    margin: 0 auto;
-    display: flex;
-    flex-wrap: wrap;
-    margin-bottom: 15px;
-
-    #inputElement {
-      width: 75%;
-      margin: 5px;
-    }
-
-    #btn {
-      width: 20%;
-      outline: 0;
-      border: 0;
-      background-color: lightblue;
-      position: relative;
-      &::after {
-        @include pseudo($content: "\e800");
-        font-family: "my-custom-icons";
-        left: 45%;
-        top: 25%;
-      }
-    }
-  }
+  justify-content: space-around;
   #searchSection {
-    width: 50%;
-    min-height: 150px;
-    border: 1px lightgray solid;
-    border-radius: 2px;
-    // background-color: #00f;
-  }
-  #savedSection {
-    width: 50%;
-    min-height: 70%;
-    border: 1px lightgray solid;
-    border-radius: 2px;
-    //background-color: #0f0;
+    width: 50%; //  border: 1px solid gray;
+    padding: 5px;
     h1 {
       width: 100%;
       padding: 5px;
+      color: rgb(179, 153, 153);
+    }
+    form {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+      padding: 5px;
+      input[type="text"] {
+        width: 90%;
+        border-radius: 2px;
+        margin: 5px;
+      }
+      input[type="submit"] {
+        width: 90%;
+        color: #fff;
+        background-color: rgb(199, 132, 132);
+      }
     }
     ul {
       width: 90%;
-
+      padding: 5px;
+      margin: 0 auto;
       li {
         display: flex;
         justify-content: space-between;
-        border: 1px rgb(163, 163, 214) solid;
-
-        padding: 5px;
-        .delete_btn {
+        cursor: pointer;
+        a.favIcon {
           width: 20px;
           height: 40px;
           position: relative;
           margin-right: 15px;
-
+          &:hover {
+            color: rgb(194, 11, 11);
+          }
           &::after {
-            @include pseudo($content: "\e803");
+            @include pseudo($content: "\e801");
             font-family: "my-custom-icons";
             font-size: 20px;
             left: 0;
             top: 0;
           }
+        }
+        a.favIconActive {
+          width: 20px;
+          height: 40px;
+          position: relative;
+          margin-right: 15px;
+          &:hover {
+            color: rgb(194, 11, 11);
+          }
+          &::after {
+            @include pseudo($content: "\e802");
+            font-family: "my-custom-icons";
+            color: rgb(194, 11, 11);
+            font-size: 20px;
+            left: 0;
+            top: 0;
+          }
+        }
+      }
+    }
+  }
+}
+
+#savedSection {
+  width: 50%;
+  min-height: 70%;
+  border-radius: 2px; // border: 1px lightgray solid;
+  h1 {
+    width: 100%;
+    padding: 5px;
+    color: rgb(179, 153, 153);
+  }
+  #SavedlistHolder {
+    padding: 5px;
+    width: 90%;
+    margin-top: 18px;
+    li {
+      display: flex;
+      justify-content: space-between;
+      cursor: pointer;
+      .delete_btn {
+        width: 20px;
+        height: 40px;
+        position: relative;
+        margin-right: 15px;
+        &:hover {
+          color: rgb(194, 11, 11);
+        }
+        &::after {
+          @include pseudo($content: "\e803");
+          font-family: "my-custom-icons";
+          font-size: 20px;
+          left: 0;
+          top: 0;
         }
       }
     }

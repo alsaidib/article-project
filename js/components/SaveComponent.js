@@ -1,52 +1,61 @@
-import * as firebase from "firebase";
 import SavedListItem from "./SavedListItem";
-
+import * as firebase from "firebase";
 export default class SaveComponent {
-  constructor(saveHolder, allSavedArticles) {
+  constructor(saveHolder, allSavedArticles, Firebase) {
     this.saveHolder = saveHolder;
     this.allSavedArticles = allSavedArticles;
-    this.listHolder = "";
-    this.FireBaseinitialize();
+    this.firebase = firebase;
+    this.listHolder;
     this.addHTML();
-    //this.setupEvents();
+    this.FireBaseinitialize();
+    this.setupEvents();
   }
 
   addHTML() {
     this.saveHolder.insertAdjacentHTML(
       "beforeend",
       `<h1>Saved Article</h1>
-      <ul id="listHolder"></ul>
+      <ul id="SavedlistHolder"></ul>
       `
     );
-    this.listHolder = document.getElementById("listHolder");
+    this.listHolder = document.getElementById("SavedlistHolder");
   }
   FireBaseinitialize() {
-    var config = {
-      apiKey: "AIzaSyBtxhe8qWTiucHBa26IpValelvO_T-a3Pk",
-      authDomain: "articlesearchapp.firebaseapp.com",
-      databaseURL: "https://articlesearchapp.firebaseio.com",
-      projectId: "articlesearchapp",
-      storageBucket: "articlesearchapp.appspot.com",
-      messagingSenderId: "719171096333"
-    };
-    firebase.initializeApp(config);
-
-    let ref = firebase.database().ref("savedArticles");
-
-    ref.once("value", snapshot => {
-      let returnedObj = snapshot.val();
-      for (let prop in returnedObj) {
-        this.allSavedArticles.push(returnedObj[prop]);
-        let id = returnedObj[prop];
-        const savedListtItem = new SavedListItem(id, this.listHolder);
-      }
-      // console.log(this.allSavedArticles);
-    });
+    this.firebase
+      .database()
+      .ref("savedArticles")
+      .once("value", snapshot => {
+        let returnedObj = snapshot.val();
+        for (let prop in returnedObj) {
+          this.allSavedArticles.push(returnedObj[prop]);
+          let id = returnedObj[prop];
+          const savedListtItem = new SavedListItem(id, this.listHolder);
+        }
+      });
   }
 
-  // setupEvents(e) {
-  //   document.querySelector(`li`).addEventListener("click", e => {
-  //     console.log("hello");
-  //   });
-  // }
+  setupEvents() {
+    this.listHolder.addEventListener("click", e => {
+      if (e.target.nodeName == "A") {
+        console.log("del");
+
+        //remove from DOM (li (parent))
+        e.target.parentElement.remove();
+        //remove from ARRAY  => array.filter
+
+        this.allSavedArticles = this.allSavedArticles.filter(
+          item => item != e.target.parentElement.dataset.id
+        );
+        console.log(this.allSavedArticles);
+        firebase
+          .database()
+          .ref("savedArticles")
+          .set(this.allSavedArticles);
+      }
+
+      // if (e.target.nodeType == "LI") {
+      //   console.log("popups");
+      // }
+    });
+  }
 }
