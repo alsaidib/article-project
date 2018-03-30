@@ -37,7 +37,7 @@ export default class SaveComponent {
   setupEvents() {
     this.listHolder.addEventListener("click", e => {
       if (e.target.nodeName == "A") {
-        console.log("del");
+        //  console.log("del");
 
         //remove from DOM (li (parent))
         e.target.parentElement.remove();
@@ -46,7 +46,7 @@ export default class SaveComponent {
         this.allSavedArticles = this.allSavedArticles.filter(
           item => item != e.target.parentElement.dataset.id
         );
-        console.log(this.allSavedArticles);
+        // console.log(this.allSavedArticles);
         firebase
           .database()
           .ref("savedArticles")

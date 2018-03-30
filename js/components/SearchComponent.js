@@ -50,6 +50,11 @@ export default class SearchComponent {
             this.articleListHolder
           );
           // allSavedArticles
+          let li = document.querySelector("li");
+          //search-${
+          // this.item.fields.entity_id
+          //}
+          //if(li.className.contains('s'))
         }
       })
       .catch(function(error) {
@@ -59,19 +64,27 @@ export default class SearchComponent {
 
   addFavorite(e) {
     e.preventDefault();
-    let id = parseInt(e.target.parentElement.dataset.id);
 
     /***************************************************** */
 
     if (e.target.nodeName == "A") {
+      let id = parseInt(e.target.parentElement.dataset.id);
+      //console.log(e.target.parentElement.dataset.id);
       if (e.target.classList.contains("favIconActive")) {
         e.target.classList.remove("favIconActive");
-        document.getElementById("save-" + id).click(); //make it works dynamiclly
+        document
+          .getElementById("save-" + id)
+          .querySelector("a.delete_btn")
+          .click(); //make it works dynamiclly
       } else {
         e.target.classList.add("favIconActive");
-        new SavedListItem(id, this.saveComponent.listHolder);
+        new SavedListItem(
+          id,
+          this.saveComponent.listHolder,
+          this.allSavedArticles
+        );
         //push id to array
-        console.log(this.allSavedArticles);
+        //console.log(this.allSavedArticles);
         this.allSavedArticles.push(id);
         firebase
           .database()

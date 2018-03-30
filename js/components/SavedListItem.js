@@ -12,6 +12,7 @@ export default class SavedListItem {
     Axios.get(`https://nieuws.vtm.be/feed/articles?format=json&ids=${this.id}`)
       .then(response => {
         this.article = response.data.response.items[0];
+        console.log(this.article);
         this.addHTML();
       })
       .catch(function(error) {
@@ -26,9 +27,13 @@ export default class SavedListItem {
           <li class="list-group-item list-group-item-action favIconActive" data-id="${
             this.article.id
           }" id="save-${this.article.id}">
-            ${this.article.title} - <a class="delete_btn"></a>
+          <div class="imgHolder">  <img src="${
+            this.article.image.thumb
+          }" alt=""></div>
+           <h4> ${this.article.title}</h4> <a class="delete_btn"></a>
           </li>
     `;
     this.listHolder.insertAdjacentHTML("beforeend", html);
+    console.log(this.article.image);
   }
 }

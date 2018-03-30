@@ -2,10 +2,11 @@
 @import "base/fonts";
 @import "base/mixins";
 @import "base/variables";
-body {}
+body {
+}
 
 .container {
-  background-color: rgb(95, 46, 46);
+ // background-color: rgb(95, 46, 46);
   padding: 25px;
   margin: 0 auto;
   width: 100%;
@@ -80,39 +81,51 @@ body {}
       }
     }
   }
-}
 
-#savedSection {
-  width: 50%;
-  min-height: 70%;
-  border-radius: 2px; // border: 1px lightgray solid;
-  h1 {
-    width: 100%;
-    padding: 5px;
-    color: rgb(179, 153, 153);
-  }
-  #SavedlistHolder {
-    padding: 5px;
-    width: 90%;
-    margin-top: 18px;
-    li {
-      display: flex;
-      justify-content: space-between;
-      cursor: pointer;
-      .delete_btn {
-        width: 20px;
-        height: 40px;
-        position: relative;
-        margin-right: 15px;
-        &:hover {
-          color: rgb(194, 11, 11);
-        }
-        &::after {
-          @include pseudo($content: "\e803");
-          font-family: "my-custom-icons";
+  #savedSection {
+    width: 50%;
+    min-height: 70%;
+    border-radius: 2px; // border: 1px lightgray solid;
+    h1 {
+      width: 100%;
+      padding: 5px;
+      color: rgb(179, 153, 153);
+    }
+    #SavedlistHolder {
+      padding: 5px;
+      width: 90%;
+      margin-top: 18px;
+      li {
+        display: flex;
+        justify-content: space-between;
+        cursor: pointer;
+        h4 {
+          width: 45%;
           font-size: 20px;
-          left: 0;
-          top: 0;
+          font-family: sans-serif;
+          font-weight: 400;
+        }
+        .imgHolder {
+          width: 33.33%;
+          img {
+            @include responsive;
+          }
+        }
+        .delete_btn {
+          width: 20px;
+          height: 40px;
+          position: relative;
+          margin-right: 15px;
+          &:hover {
+            color: rgb(194, 11, 11);
+          }
+          &::after {
+            @include pseudo($content: "\e803");
+            font-family: "my-custom-icons";
+            font-size: 20px;
+            left: 0;
+            top: 0;
+          }
         }
       }
     }

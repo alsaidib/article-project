@@ -10,6 +10,7 @@ var config = {
   storageBucket: "articlesearchapp.appspot.com",
   messagingSenderId: "719171096333"
 };
+
 firebase.initializeApp(config);
 
 const allSavedArticles = [];
