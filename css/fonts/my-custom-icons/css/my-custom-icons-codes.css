@@ -3,3 +3,10 @@
 .icon-heart-empty:before { content: '\e801'; } /* '' */
 .icon-heart:before { content: '\e802'; } /* '' */
 .icon-trash-empty:before { content: '\e803'; } /* '' */
+.icon-left-open:before { content: '\e804'; } /* '' */
+.icon-right-open:before { content: '\e805'; } /* '' */
+.icon-spin5:before { content: '\e838'; } /* '' */
+.icon-instagram:before { content: '\f16d'; } /* '' */
+.icon-dot-circled:before { content: '\f192'; } /* '' */
+.icon-twitter-squared:before { content: '\f304'; } /* '' */
+.icon-facebook-squared:before { content: '\f308'; } /* '' */

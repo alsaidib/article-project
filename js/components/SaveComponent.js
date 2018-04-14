@@ -1,7 +1,12 @@
 import SavedListItem from "./SavedListItem";
 import * as firebase from "firebase";
+import axios from "axios";
+import $ from "jquery";
+require("malihu-custom-scrollbar-plugin")($);
+var popupS = require("popups");
+
 export default class SaveComponent {
-  constructor(saveHolder, allSavedArticles, Firebase) {
+  constructor(saveHolder, allSavedArticles, firebase) {
     this.saveHolder = saveHolder;
     this.allSavedArticles = allSavedArticles;
     this.firebase = firebase;
@@ -10,15 +15,17 @@ export default class SaveComponent {
     this.FireBaseinitialize();
     this.setupEvents();
   }
-
   addHTML() {
     this.saveHolder.insertAdjacentHTML(
       "beforeend",
-      `<h1>Saved Article</h1>
-      <ul id="SavedlistHolder"></ul>
-      `
+      `<ul id="SavedlistHolder"></ul>`
     );
     this.listHolder = document.getElementById("SavedlistHolder");
+
+    $("#savedSection").mCustomScrollbar({
+      theme: "inset-2-dark",
+      advanced: { updateOnContentResize: true }
+    });
   }
   FireBaseinitialize() {
     this.firebase
@@ -28,7 +35,7 @@ export default class SaveComponent {
         let returnedObj = snapshot.val();
         for (let prop in returnedObj) {
           this.allSavedArticles.push(returnedObj[prop]);
-          let id = returnedObj[prop];
+          const id = returnedObj[prop];
           const savedListtItem = new SavedListItem(id, this.listHolder);
         }
       });
@@ -37,11 +44,16 @@ export default class SaveComponent {
   setupEvents() {
     this.listHolder.addEventListener("click", e => {
       if (e.target.nodeName == "A") {
+        e.stopPropagation();
         //  console.log("del");
+        let idForRemove = parseInt(e.target.parentElement.dataset.id);
 
-        //remove from DOM (li (parent))
         e.target.parentElement.remove();
-        //remove from ARRAY  => array.filter
+        let idToSearch = document.getElementById(`fav-${idForRemove}`);
+
+        if (idToSearch) {
+          idToSearch.classList.remove("favIconActive");
+        } //remove from ARRAY  => array.filter
 
         this.allSavedArticles = this.allSavedArticles.filter(
           item => item != e.target.parentElement.dataset.id
@@ -52,10 +64,42 @@ export default class SaveComponent {
           .ref("savedArticles")
           .set(this.allSavedArticles);
       }
+      document.getElementById("SavedlistHolder").addEventListener(
+        "click",
+        e => {
+          if (e.target.nodeName == "SPAN") {
+            e.stopPropagation();
 
-      // if (e.target.nodeType == "LI") {
-      //   console.log("popups");
-      // }
+            const id = e.target.parentElement.dataset.id;
+
+            popupS.window({
+              mode: "modal",
+              content: "Loading...",
+              onOpen: function() {
+                axios
+                  .get(
+                    "https://nieuws.vtm.be/feed/articles?format=json&fields=html&ids=" +
+                      id
+                  )
+                  .then(response => {
+                    const item = response.data.response.items[0];
+
+                    this.$contentEl.innerHTML = `
+                    <h1>${item.title}</h1>
+                    <img class="articleImg" src="${item.image.medium}">
+                    <div>${item.text_html}"</div>
+                    <a target="_blank" href="${item.url}">Ga naar de link</a>
+                  `;
+                  })
+                  .catch(function(error) {
+                    console.log(error);
+                  });
+              }
+            });
+          }
+        },
+        true
+      );
     });
   }
 }

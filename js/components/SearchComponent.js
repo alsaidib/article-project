@@ -2,6 +2,8 @@ import axios from "axios";
 import SearchListItems from "./SearchListItems";
 import SavedListItem from "./SavedListItem";
 import * as firebase from "firebase";
+import $ from "jquery";
+var popupS = require("popups");
 
 export default class SearchComponent {
   constructor(searchHolder, allSavedArticles, saveComponent, firebase) {
@@ -14,17 +16,26 @@ export default class SearchComponent {
     this.setUpEvents();
   }
   generateHTML() {
-    const html = `<h1>Search Article</h1>
+    const html = `
       <div id="searcharia">
         <form action="">
-          <input type="text" value="" class="form-control mr-sm-2">
-          <input type="submit" value="Search" class="btn btn-outline-secondary">
+          <input type="text" value="" placeholder="Search">
+          <input type="submit" value="ZOEK">
         </form>
-        <ul></ul>
+        
+        <ul id="resultListHolder"></ul>
       </div>`;
     this.searchHolder.insertAdjacentHTML("beforeend", html);
     this.form = document.querySelector("form");
-    this.articleListHolder = document.querySelector("ul");
+    this.articleListHolder = document.getElementById("resultListHolder");
+
+    $("#social-media #search").click(function(e) {
+      $("html, body").animate(
+        { scrollTop: $("#searcharia").offset().top },
+        1000
+      );
+      return false;
+    });
   }
 
   setUpEvents() {
@@ -33,9 +44,15 @@ export default class SearchComponent {
       "click",
       this.addFavorite.bind(this)
     );
+    this.articleListHolder.addEventListener(
+      "click",
+      this.showPopUps.bind(this)
+    );
   }
 
   handleSubmit(e) {
+    this.articleListHolder.innerHTML = "";
+
     e.preventDefault();
     let valuetHolder = this.form.querySelector("input[type=text]").value;
 
@@ -44,17 +61,13 @@ export default class SearchComponent {
         `https://nieuws.vtm.be/feed/articles/solr?format=json&query=${valuetHolder}`
       )
       .then(response => {
+        //let numberOfArticles = parseInt(response.total);
         for (const item of response.data.response.items) {
           const searchListItem = new SearchListItems(
             item,
-            this.articleListHolder
+            this.articleListHolder,
+            this.allSavedArticles
           );
-          // allSavedArticles
-          let li = document.querySelector("li");
-          //search-${
-          // this.item.fields.entity_id
-          //}
-          //if(li.className.contains('s'))
         }
       })
       .catch(function(error) {
@@ -62,10 +75,11 @@ export default class SearchComponent {
       });
   }
 
+  /**********************Pagination********* */
+
+  /***************************Add To Favorite List************************** */
   addFavorite(e) {
     e.preventDefault();
-
-    /***************************************************** */
 
     if (e.target.nodeName == "A") {
       let id = parseInt(e.target.parentElement.dataset.id);
@@ -84,15 +98,45 @@ export default class SearchComponent {
           this.allSavedArticles
         );
         //push id to array
-        //console.log(this.allSavedArticles);
+
         this.allSavedArticles.push(id);
         firebase
           .database()
           .ref("savedArticles")
           .set(this.allSavedArticles);
       }
-    } else {
-      console.log(error);
+    }
+  }
+  /****************popUps Show****************** */
+  showPopUps(e) {
+    if (e.target.nodeName == "SPAN") {
+      e.stopPropagation();
+      const id = e.target.parentElement.dataset.id;
+
+      popupS.window({
+        mode: "modal",
+        content: "Loading...",
+        onOpen: function() {
+          axios
+            .get(
+              "https://nieuws.vtm.be/feed/articles?format=json&fields=html&ids=" +
+                id
+            )
+            .then(response => {
+              const item = response.data.response.items[0];
+
+              this.$contentEl.innerHTML = `
+                    <h1>${item.title}</h1>
+                    <img class="articleImg" src="${item.image.medium}">
+                    <div>${item.text_html}"</div>
+                    <a target="_blank" href="${item.url}">Ga naar de link</a>
+                  `;
+            })
+            .catch(function(error) {
+              console.log(error);
+            });
+        }
+      });
     }
   }
 }
