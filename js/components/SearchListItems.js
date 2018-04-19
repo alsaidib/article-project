@@ -5,11 +5,10 @@ export default class SearchListItems {
     this.item = item;
     this.articleListHolder = articleListHolder;
     this.allSavedArticles = allSavedArticles;
-    // console.log(this.allSavedArticles);
     this.generateHtml();
   }
+  //////// add html to article list holder////
   generateHtml() {
-    // $("body").css("background-color", "red");
     this.articleListHolder.insertAdjacentHTML(
       "beforeend",
       ` <li data-id="${this.item.fields.entity_id}" id="search-${
@@ -25,7 +24,7 @@ export default class SearchListItems {
       `
     );
 
-    /*************************** */
+    /*************adding favorite hart if it's already in firebase************** */
     var ckeckStatus = this.check(
       this.allSavedArticles,
       this.item.fields.entity_id
@@ -34,10 +33,6 @@ export default class SearchListItems {
       document
         .getElementById(`fav-${this.item.fields.entity_id}`)
         .classList.add("favIconActive");
-      // console.log(document.getElementById(`fav-${this.item.fields.entity_id}`));
-      // document
-      //   .getElementById(`data-id="${this.item.fields.entity_id}"`)
-      //   .classList.add("favIconActive");
     }
   }
 

@@ -7,71 +7,70 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Vtm Nieuws</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.4.3/css/foundation.min.css">
-  <!--<link rel="stylesheet" href="./node_modules/firebaseui/dist/firebaseui.css">-->
+  <link rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/2.7.0/firebaseui.css">
   <link rel="stylesheet" href="./css/style.css">
   <link rel="stylesheet" href="./node_modules/popups/css/popupS.min.css">
 </head>
 
 <body>
-  <!--
+  <div id="loader">loading</div>
   <div id="firebaseui-auth-container"></div>
   <div id="app">
-  -->
-  <header>
-    <div id="headerHolder">
 
-      <div id="headderLogo">
-        <a href="#"></a>
+    <header>
+      <div id="headerHolder">
+
+        <div id="headderLogo">
+          <a href="#"></a>
+        </div>
+        <div id="social-media">
+          <a href="https://www.facebook.com/vtmnieuws" target="_blank" id="fb"></a>
+          <a href="https://twitter.com/vtmnieuws" target="_blank" id="twitter"></a>
+          <a href="https://www.instagram.com/vtmnieuws/" target="_blank" id="inst"></a>
+          <a href="#" id="search"></a>
+        </div>
+
       </div>
-      <div id="social-media">
-        <a href="https://www.facebook.com/vtmnieuws" target="_blank" id="fb"></a>
-        <a href="https://twitter.com/vtmnieuws" target="_blank" id="twitter"></a>
-        <a href="https://www.instagram.com/vtmnieuws/" target="_blank" id="inst"></a>
-        <a href="#" id="search"></a>
+    </header>
+    <section class="container">
+      <ul id="newsTypeList">
+        <li>
+          <a href="#" id="vandaagSection">Vandaag</a>
+        </li>
+        <li>
+          <a href="#" id="weatherSection">Het Weer</a>
+        </li>
+        <li>
+          <a target="_blank" href="http://www.vtmkids.be/">Kinderen</a>
+        </li>
+        <li>
+          <a href="https://nieuws.vtm.be/vtm-nieuws/livestream-vtm-nieuws">Live Stream</a>
+        </li>
+      </ul>
+      <div id="sliderBigHolder">
+        <div id="sliderHolder">
+        </div>
+
       </div>
 
-    </div>
-  </header>
-  <section class="container">
-    <ul id="newsTypeList">
-      <li>
-        <a href="" id="vandaagSection">Vandaag</a>
-      </li>
-      <li>
-        <a href="" id="weatherSection">Het Weer</a>
-      </li>
-      <li>
-        <a target="_blank" href="http://www.vtmkids.be/">Kinderen</a>
-      </li>
-      <li>
-        <a href="https://nieuws.vtm.be/vtm-nieuws/livestream-vtm-nieuws">Live Stream</a>
-      </li>
-    </ul>
-    <div id="sliderBigHolder">
-      <div id="sliderHolder">
+
+      <div id="savedSection">
+
       </div>
+    </section>
+    <section class="container">
+      <div id="searchSection">
 
-    </div>
+      </div>
+    </section>
 
+    <section id="weather" class="container">
+      <h1>HET WEER</h1>
+    </section>
+    <footer>
 
-    <div id="savedSection">
-
-    </div>
-  </section>
-  <section class="container">
-    <div id="searchSection">
-
-    </div>
-  </section>
-
-  <section id="weather" class="container">
-    <h1>HET WEER</h1>
-  </section>
-  <footer>
-
-  </footer>
-  <!-- </div>
- -->
+    </footer>
+  </div>
   <script src="./js/main.js"></script>
 
 

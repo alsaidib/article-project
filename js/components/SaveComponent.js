@@ -15,18 +15,21 @@ export default class SaveComponent {
     this.FireBaseinitialize();
     this.setupEvents();
   }
+
+  /////add html (list holder-ul-)//////
   addHTML() {
     this.saveHolder.insertAdjacentHTML(
       "beforeend",
       `<ul id="SavedlistHolder"></ul>`
     );
     this.listHolder = document.getElementById("SavedlistHolder");
-
+    ///////////scrollbar////////
     $("#savedSection").mCustomScrollbar({
-      theme: "inset-2-dark",
+      theme: "dark-2",
       advanced: { updateOnContentResize: true }
     });
   }
+  /////////firebase initialization///////
   FireBaseinitialize() {
     this.firebase
       .database()
@@ -40,66 +43,64 @@ export default class SaveComponent {
         }
       });
   }
-
+  ////////events delete and remove from firebase and hart from searchcomponent/////
   setupEvents() {
-    this.listHolder.addEventListener("click", e => {
-      if (e.target.nodeName == "A") {
-        e.stopPropagation();
-        //  console.log("del");
-        let idForRemove = parseInt(e.target.parentElement.dataset.id);
+    this.listHolder.addEventListener(
+      "click",
+      e => {
+        //FIRST POSSIBILITY WHEN CLICKING ==> removing
+        if (e.target.nodeName == "A") {
+          e.preventDefault();
 
-        e.target.parentElement.remove();
-        let idToSearch = document.getElementById(`fav-${idForRemove}`);
+          let idForRemove = parseInt(e.target.parentElement.dataset.id);
 
-        if (idToSearch) {
-          idToSearch.classList.remove("favIconActive");
-        } //remove from ARRAY  => array.filter
+          e.target.parentElement.remove();
+          let idToSearch = document.getElementById(`fav-${idForRemove}`);
 
-        this.allSavedArticles = this.allSavedArticles.filter(
-          item => item != e.target.parentElement.dataset.id
-        );
-        // console.log(this.allSavedArticles);
-        firebase
-          .database()
-          .ref("savedArticles")
-          .set(this.allSavedArticles);
-      }
-      document.getElementById("SavedlistHolder").addEventListener(
-        "click",
-        e => {
-          if (e.target.nodeName == "SPAN") {
-            e.stopPropagation();
+          if (idToSearch) {
+            idToSearch.classList.remove("favIconActive");
+          }
+          //remove from ARRAY  => array.filter
+          this.allSavedArticles = this.allSavedArticles.filter(
+            item => item != e.target.parentElement.dataset.id
+          );
 
-            const id = e.target.parentElement.dataset.id;
+          firebase
+            .database()
+            .ref("savedArticles")
+            .set(this.allSavedArticles);
+        }
+        //////////open popup/////////
+        if (e.target.nodeName == "SPAN") {
+          const id = e.target.parentElement.dataset.id;
 
-            popupS.window({
-              mode: "modal",
-              content: "Loading...",
-              onOpen: function() {
-                axios
-                  .get(
-                    "https://nieuws.vtm.be/feed/articles?format=json&fields=html&ids=" +
-                      id
-                  )
-                  .then(response => {
-                    const item = response.data.response.items[0];
+          popupS.window({
+            mode: "modal",
+            content: "Loading...",
+            onOpen: function() {
+              axios
+                .get(
+                  "https://nieuws.vtm.be/feed/articles?format=json&fields=html&ids=" +
+                    id
+                )
+                .then(response => {
+                  const item = response.data.response.items[0];
 
-                    this.$contentEl.innerHTML = `
+                  this.$contentEl.innerHTML = `
                     <h1>${item.title}</h1>
                     <img class="articleImg" src="${item.image.medium}">
                     <div>${item.text_html}"</div>
                     <a target="_blank" href="${item.url}">Ga naar de link</a>
                   `;
-                  })
-                  .catch(function(error) {
-                    console.log(error);
-                  });
-              }
-            });
-          }
-        },
-        true
-      );
-    });
+                })
+                .catch(function(error) {
+                  console.log(error);
+                });
+            }
+          });
+        }
+      },
+      true
+    );
   }
 }

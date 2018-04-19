@@ -7,7 +7,7 @@ export default class SavedListItem {
     this.article = "";
     this.loadContent();
   }
-
+  //////////////firebase articles request get data from api/////
   loadContent() {
     Axios.get(`https://nieuws.vtm.be/feed/articles?format=json&ids=${this.id}`)
       .then(response => {
@@ -19,7 +19,7 @@ export default class SavedListItem {
         console.log(error);
       });
   }
-
+  ///////// add html list /////
   addHTML() {
     const html = `
           <li class="favIconActive" data-id="${this.article.id}" id="save-${

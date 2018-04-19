@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "parcel index.html",
+    "dev": "parcel index.html --no-hmr",
     "prod": "parcel build index.html -d build --public-url ./",
     "deploy": "firebase deploy"
   },
@@ -12,6 +12,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@verhulstd/simple-autosuggest": "^1.0.0",
+    "@verhulstd/suggest-input": "^1.0.1",
     "axios": "^0.18.0",
     "firebase": "^4.11.0",
     "firebaseui": "^2.7.0",

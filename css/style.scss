@@ -15,6 +15,7 @@ header {
     width: 100%;
     display: flex;
     flex-wrap: wrap;
+    align-items: center;
     justify-content: space-around;
     height: 150px;
     position: relative;
@@ -32,7 +33,7 @@ header {
     }
     #headderLogo {
       height: 100px;
-      width: 40%;
+      width: 25%;
       z-index: 500;
       a {
         position: relative;
@@ -56,7 +57,7 @@ header {
       align-items: center;
       justify-content: center;
       text-align: center;
-      width: 30%;
+      width: 12%;
       height: 80px;
       z-index: 1000;
       #search {
@@ -113,7 +114,7 @@ header {
   justify-content: space-around;
   overflow: hidden;
   #newsTypeList {
-    padding-left: 25px;
+    padding-left: 42px;
     display: flex;
     width: 100%;
     background-color: rgb(23, 22, 26);
@@ -128,6 +129,10 @@ header {
       }
     }
   }
+}
+
+#loadMore {
+  display: none;
 }
 
 #sliderBigHolder {
@@ -220,9 +225,9 @@ header {
           color: rgb(230, 220, 220);
           background-color: rgba(73, 69, 69, 0.637);
           left: 0;
-          bottom: 15px;
+          bottom: 20px;
           width: 100%;
-          height: 30px;
+          height: auto;
           line-height: 30px;
           font-family: "Ubuntu", sans-serif;
           font-size: 30px;
@@ -250,7 +255,7 @@ header {
 
 ///////////////////////////////////////////////////////////////
 #searchSection {
-  margin-top: 20px;
+  margin: 50px auto 70px auto;
   width: 100%; //  border: 1px solid gray;
   display: flex;
   justify-content: space-around;
@@ -258,9 +263,9 @@ header {
   #searcharia {
     width: 100%;
     form {
-      margin: 0 auto;
+      margin: 5px auto;
       background-color: #17161a;
-      padding-left: 38px;
+      padding: 15px 41px;
       width: 100%;
       display: flex;
       align-items: flex-start;
@@ -273,11 +278,15 @@ header {
         line-height: 40px;
       }
       input[type="text"] {
-        width: 40%;
-        border-radius: 2px; // height: 30px;
+        font-family: "Ubuntu", sans-serif;
+        width: 87%;
+        border-radius: 2px;
+        margin: 0 auto;
       }
       input[type="submit"] {
-        width: 90px;
+        margin: 0 auto;
+        outline: 0;
+        width: 13%;
         height: 39px;
         background-color: #ce2b2b;
         border: none;
@@ -291,37 +300,56 @@ header {
         }
       }
     }
+    #loadMore {
+      margin: 0 auto;
+      width: 28%;
+      color: #fff;
+      background-color: #ce2b2b;
+      text-align: center;
+      font-size: 15px;
+      padding: 5px;
+      height: 30px;
+      font-family: "Ubuntu", sans-serif;
+      cursor: pointer;
+    }
   }
   #resultListHolder {
-    width: 95%;
-    padding: 20px;
+    width: 100%;
+    padding: 37px;
     margin: 0 auto;
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
     align-items: center;
+    strong {
+      color: #fff;
+      width: 100%;
+      display: block;
+      font-size: 18px;
+    }
     li {
       display: flex;
       flex-wrap: wrap; // justify-content: space-between;
-
       margin: 5px 5px;
       width: 18%;
       background-color: #f0f0f0;
       border-radius: 5px;
       padding: 5px;
       transition: all 100ms;
-      &:hover {
-        transform: scale(1.015);
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
-      }
+      overflow: hidden;
       span {
         width: 100%;
-        background-color: #ce2b2b57;
+        background-color: #0c052c;
+        color: #fff;
         text-align: center;
         font-size: 14px;
         padding: 5px;
+        height: 28px;
         font-family: "Ubuntu", sans-serif;
         cursor: pointer;
+        &:hover {
+          background-color: #ce2b2b;
+        }
       }
       h4 {
         width: 100%;
@@ -329,6 +357,8 @@ header {
         font-family: "Ubuntu", sans-serif;
         font-weight: 400;
         margin: 10px;
+        height: 40px;
+        overflow: hidden;
       }
       .imgHolder {
         width: 100%;
@@ -410,14 +440,9 @@ header {
       display: flex;
       justify-content: space-between;
       flex-wrap: wrap;
-
       margin-bottom: 5px;
       transition: all 200ms;
       padding: 10px;
-      &:hover {
-        transform: scale(1.015);
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
-      }
       h4 {
         width: 40%;
         font-size: 15px;
@@ -435,8 +460,9 @@ header {
         height: 40px;
         position: relative;
         margin-right: 15px;
+        color: rgb(6, 11, 36);
         &:hover {
-          color: rgb(194, 11, 11);
+          color: rgb(255, 0, 0);
         }
         &::after {
           @include pseudo($content: "\e803");
@@ -449,7 +475,7 @@ header {
       .readMore {
         margin-top: 5px;
         cursor: pointer;
-        padding: 5px;
+        padding: 10px;
         width: 100%;
         text-align: center;
         background-color: rgb(6, 11, 36);
@@ -457,7 +483,7 @@ header {
         font-family: "Ubuntu", sans-serif;
         font-size: 14px;
         &:hover {
-          color: #ce2b2b;
+          background-color: #ce2b2b;
         }
       }
     }
@@ -502,8 +528,10 @@ header {
 #weather {
   width: 100%;
   display: flex; //background-color: rgb(211, 31, 31);
+  flex-wrap: wrap;
   padding: 15px;
-  h1 {
+  h1,
+  h2 {
     width: 100%;
     color: #fff;
     font-family: "Ubuntu", sans-serif;
@@ -513,27 +541,36 @@ header {
     background-color: #ce2b2b;
     padding: 10px 25px;
   }
+  h2 {
+    font-size: 16px;
+  }
   .weatherForDay {
-    width: 10%;
+    width: 11%;
     align-items: center;
     display: flex;
     flex-wrap: wrap;
     img {
       margin: 0 auto;
+      width: 50px;
     }
     h4,
     h3 {
       font-family: "Ubuntu", sans-serif;
       font-weight: 400;
       color: lemonchiffon;
-      width: 60%;
+      width: 100%;
       margin: 0 auto;
       font-size: 12px;
+      text-align: center;
     }
     h3 {
       width: 100%;
       padding: 5px;
       text-align: center;
+      height: 60px;
+      overflow: hidden;
+      margin-top: 5px;
+      line-height: 20px;
     }
   }
 }
@@ -542,11 +579,10 @@ footer {
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  padding: 5px;
+  padding: 10px 20px;
   width: 100%;
   height: 100%;
   background-image: url("../images/bg.jpg");
-
   a {
     color: lemonchiffon;
     font-family: "Ubuntu", sans-serif;
@@ -555,6 +591,7 @@ footer {
     line-height: 40px;
     text-align: center;
     padding: 5px;
+    width: 110px;
     &:hover {
       background-color: #ce2b2b;
       border-radius: 4px;
@@ -563,18 +600,17 @@ footer {
   }
   #top {
     margin-left: auto;
+    margin-top: 18px;
     color: white;
     padding-top: 1.8em;
     display: inline-block;
-    /* or block */
     position: relative;
     border-color: white;
     text-decoration: none;
     transition: all 0.3s ease-out;
-
     &:before {
       content: "▲";
-      font-size: 17px;
+      font-size: 15px;
       position: absolute;
       top: 0;
       left: 50%;
@@ -587,13 +623,11 @@ footer {
       border-color: inherit;
       transition: transform 0.5s ease-in;
     }
-
     &:hover {
-      color: #ce2b2b;
-      border-color: #ce2b2b;
-      background-color: #ce2b2b00;
+      color: #ff2e2e;
+      border-color: #dadada;
+      background-color: #ec161600;
     }
-
     &:hover:before {
       transform: rotate(360deg);
     }
@@ -601,6 +635,32 @@ footer {
 }
 
 ///////////////////////////////////////////////
+@media screen and (max-width: 2000px) {
+  #sliderBigHolder {
+    height: 700px;
+    #sliderHolder {
+      height: 700px;
+    }
+  }
+}
+
+@media screen and (max-width: 1650px) {
+  #sliderBigHolder {
+    height: 600px;
+    #sliderHolder {
+      height: 600px;
+    }
+  }
+}
+@media screen and (max-width: 1400px) {
+  #sliderBigHolder {
+    height: 500px;
+    #sliderHolder {
+      height: 500px;
+    }
+  }
+}
+
 @media screen and (max-width: 1300px) {
   #sliderBigHolder {
     #sliderHolder {
@@ -614,7 +674,7 @@ footer {
 
 @media screen and (max-width: 1200px) {
   .container {
-    width: 90%;
+    width: 100%;
     h1 {
       font-size: 20px;
     }
@@ -635,7 +695,7 @@ footer {
       }
       .bullets {
         position: absolute;
-        bottom: 70px;
+        bottom: 18px;
         left: 26%;
       }
     }
@@ -646,8 +706,11 @@ footer {
   #sliderBigHolder #sliderHolder .siema .slide h3 {
     font-size: 25px;
   }
+  #sliderBigHolder #sliderHolder .bullets {
+    bottom: 80px;
+  }
   .container {
-    width: 88%;
+    width: 90%;
     h1 {
       font-size: 18px;
     }
@@ -661,8 +724,8 @@ footer {
     &:before {
       font-size: 20px;
     }
-    h4 {
-      font-size: 15px;
+    #SavedlistHolder li h4 {
+      font-size: 13px;
     }
   }
 }
@@ -670,6 +733,9 @@ footer {
 @media screen and (max-width: 980px) {
   #sliderBigHolder #sliderHolder .siema .slide h3 {
     font-size: 22px;
+  }
+  #sliderBigHolder #sliderHolder .bullets {
+    bottom: 60px;
   }
   #sliderBigHolder {
     height: 370px;
@@ -686,7 +752,7 @@ footer {
         font-size: 14px;
       }
     }
-    max-height: 316px;
+    max-height: 400px;
   }
   #searchSection {
     #resultListHolder {
@@ -695,13 +761,36 @@ footer {
       }
     }
   }
-  #weather .weatherForDay {
-    width: 38%;
-    h3 {
-      width: 40%;
+  #weather {
+    justify-content: space-between;
+    .weatherForDay {
+      width: 25%;
+      h3 {
+        width: 100%;
+      }
+      h4 {
+        width: 100%;
+      }
     }
-    h4 {
-      width: 20%;
+  }
+  footer {
+    flex-wrap: wrap;
+    justify-content: space-between;
+    a {
+      width: 30%;
+    }
+    #top {
+      width: 100%;
+      text-align: center;
+      background-color: #ce2b2b;
+      &:hover {
+        background-color: #ce2b2b;
+        color: #fff;
+      }
+      &:before {
+        margin-top: 10px;
+        font-size: 18px;
+      }
     }
   }
 }
@@ -749,18 +838,24 @@ footer {
 
 @media screen and (max-width: 750px) {
   #headerHolder {
-    display: block !important;
+    display: flex !important;
+    flex-wrap: wrap;
+    margin-bottom: 50px;
     #headderLogo {
-      width: 77% !important;
+      width: 60% !important;
       margin: 0 auto;
       height: 70px !important;
       margin-bottom: 5px;
     }
     #social-media {
-      margin: 0 auto;
-      width: 77% !important;
+      margin: 20px auto;
+      width: 50% !important;
+      a {
+        width: 8% !important;
+      }
       #search {
-        width: 30% !important;
+        width: 40% !important;
+        height: 40%;
       }
     }
   } /////slider////
@@ -802,8 +897,23 @@ footer {
 }
 
 @media screen and (max-width: 580px) {
-  #headerHolder #headderLogo {
-    width: 65% !important;
+  #headerHolder {
+    #headderLogo {
+      width: 65% !important;
+    }
+    #social-media {
+      margin-top: 20px !important;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center !important;
+      width: 60% !important;
+      margin: 0 auto;
+      a {
+      }
+      #search {
+        width: 80% !important;
+      }
+    }
   }
   #sliderBigHolder {
     height: 390px;
@@ -814,8 +924,15 @@ footer {
   #weather h1 {
     font-size: 18px;
   }
-  #searchSection #searcharia form input[type="submit"] {
-    font-size: 12px;
+  #searchSection {
+    #searcharia {
+      form {
+        input[type="submit"] {
+          font-size: 12px;
+          width: 25%;
+        }
+      }
+    }
   }
 }
 
@@ -842,7 +959,7 @@ footer {
     }
   }
   #sliderBigHolder #sliderHolder .siema .slide h3 {
-    font-size: 18px;
+    font-size: 16px;
   }
   #weather .weatherForDay {
     width: 100%;

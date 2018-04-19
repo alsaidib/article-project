@@ -6,22 +6,21 @@ export default class Slider {
   constructor(sliderHolder) {
     this.sliderHolder = sliderHolder;
     this.articles;
+    this.imagesLoaded = 0;
     this.loadSliderContent();
   }
-  /////////////////////////////
+  /////////////geting the last news////////////////
   loadSliderContent() {
     axios
       .get(`https://nieuws.vtm.be/feed/articles?format=json`)
       .then(response => {
         this.articles = response.data.response.items;
-        //console.log(this.article);
+
         this.addHTML();
       })
-      .catch(function(error) {
-        // console.log(error);
-      });
+      .catch(function(error) {});
   }
-  /////////////////////////////////////
+  //////////////////add siema html///////////////////
   addHTML() {
     let html = "";
     let bullets = "";
@@ -36,21 +35,19 @@ export default class Slider {
           <a class="right"></a>
         </div>`
     );
+    ////////// adding bullets//////
     this.sliderHolder.insertAdjacentHTML(
       "beforeend",
       `<div class="bullets"></div>`
     );
     ////////////////////cycle throuw all articles and add html to slider//////////////////////////
     for (let prop in this.articles) {
-      html += `
-               <div class="slide" id="${this.articles[prop].id}">
+      html += `<div class="slide" id="slide-${this.articles[prop].id}">
                 <a target="_blank" href="${
                   this.articles[prop].url
-                }"> <img src="${this.articles[prop].image.full}"/></a>
+                }"><img src="${this.articles[prop].image.medium}"/></a>
                 <h3>${this.articles[prop].title}</h3>	
-                
-                </div>
-       `;
+                </div>`;
       bullets += `<a href="#" class="bullet"></a>`;
     }
     ///////add to html slider/////////
@@ -58,32 +55,52 @@ export default class Slider {
       .querySelector(".siema")
       .insertAdjacentHTML("beforeend", html);
 
+    $.each($(".siema div img"), (index, element) => {
+      //console.log(index, element);
+      element.addEventListener("load", () => {
+        this.imagesLoaded++;
+        if (this.imagesLoaded == 10) {
+          //ALL LOADED
+          this.mySiema = new Siema({
+            selector: ".siema",
+            loop: true,
+            duration: 200,
+            easing: "ease-in",
+            perPage: 1,
+            startIndex: 0,
+            draggable: true,
+            multipleDrag: true,
+            threshold: 200,
+            rtl: false,
+            onInit: () => {},
+            onChange: () => {}
+          });
+          this.mySiema.resizeHandler();
+        }
+      });
+    });
+
     this.sliderHolder
       .querySelector(".bullets")
       .insertAdjacentHTML("beforeend", bullets);
+    /////////Siema ////////
+    /*
 
-    this.mySiema = new Siema({
-      selector: ".siema",
-      loop: true,
-      duration: 200,
-      easing: "ease-in",
-      perPage: 1,
-      startIndex: 0,
-      draggable: true,
-      multipleDrag: true,
-      threshold: 200,
-      loop: false,
-      rtl: false,
-      onInit: () => {},
-      onChange: () => {}
-    });
+
+    setInterval(() => {
+      this.mySiema.resizeHandler();
+      console.log("resizing");
+    }, 3000);
+*/
     ////////add prevous and next arrows/////////
-    this.sliderHolder
-      .querySelector(".left")
-      .addEventListener("click", () => this.mySiema.prev());
-    this.sliderHolder
-      .querySelector(".right")
-      .addEventListener("click", () => this.mySiema.next());
+    this.sliderHolder.querySelector(".left").addEventListener("click", e => {
+      this.mySiema.prev();
+      this.updateBullets();
+    });
+    this.sliderHolder.querySelector(".right").addEventListener("click", e => {
+      this.mySiema.next();
+      this.updateBullets();
+    });
 
     $(".bullets a").ready(function() {
       $(".bullets a")
@@ -97,7 +114,7 @@ export default class Slider {
       $(e.currentTarget).addClass("active");
       this.mySiema.goTo($(e.currentTarget).index());
     });
-    // this.setupEvents();
+
     $("#vandaagSection").click(function() {
       $("html, body").animate(
         { scrollTop: $("#sliderBigHolder").offset().top },
@@ -106,51 +123,11 @@ export default class Slider {
       return false;
     });
   }
+  ////////add active class to bullets/////
+  updateBullets() {
+    $(".bullets a.active").removeClass("active");
+    let slideNr = this.mySiema.currentSlide;
 
-  /*
-  setupEvents() {
-    class SiemaWithDots extends Siema {
-      addDots() {
-        this.dots = document.createElement("div");
-        this.dots.classList.add("dots");
-
-        for (let i = 0; i < this.innerElements.length; i++) {
-          const dot = document.createElement("button");
-
-          dot.classList.add("dots__item");
-
-          dot.addEventListener("click", () => {
-            this.goTo(i);
-          });
-
-          this.dots.appendChild(dot);
-        }
-
-        this.selector.parentNode.insertBefore(
-          this.dots,
-          this.selector.nextSibling
-        );
-      }
-
-      updateDots() {
-        for (let i = 0; i < this.dots.querySelectorAll("button").length; i++) {
-          const addOrRemove = this.currentSlide === i ? "add" : "remove";
-          this.dots
-            .querySelectorAll("button")
-            [i].classList[addOrRemove]("dots__item--active");
-        }
-      }
-    }
-
-    const mySiemaWithDots = new SiemaWithDots({
-      onInit: function() {
-        this.addDots();
-        this.updateDots();
-      },
-      onChange: function() {
-        this.updateDots();
-      }
-    });
+    $(".bullets a:nth-child(" + (slideNr + 1) + ")").addClass("active");
   }
-  */
 }
